@@ -16,7 +16,9 @@ class ReporteController extends Controller
  public function store(Request $request)
 {
     return response()->json([
-        'ok' => true
+        'hasFile' => $request->hasFile('imagen'),
+        'files' => $request->allFiles(),
+        'all' => $request->all()
     ]);
 }
     public function show(Reporte $reporte)
