@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reporte;
+use App\Models\Notificacion;
 use Illuminate\Http\Request;
 
 class ReporteController extends Controller
@@ -35,12 +36,26 @@ class ReporteController extends Controller
         return $reporte;
     }
 
-    public function update(Request $request, Reporte $reporte)
-    {
-        $reporte->update($request->all());
+   public function update(Request $request, Reporte $reporte)
+{
+    $estadoAnterior = $reporte->estado;
 
-        return $reporte;
+    $reporte->update($request->all());
+
+    if (
+        $request->has('estado') &&
+        $estadoAnterior != $request->estado
+    ) {
+
+        Notificacion::create([
+            'mensaje' => 'El estado de tu reporte cambió a: ' . $request->estado,
+            'user_id' => $reporte->user_id,
+            'reporte_id' => $reporte->id
+        ]);
     }
+
+    return $reporte;
+}
 
     public function destroy(Reporte $reporte)
     {
