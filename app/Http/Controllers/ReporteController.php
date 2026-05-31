@@ -15,10 +15,26 @@ class ReporteController extends Controller
 
  public function store(Request $request)
 {
-    return response()->json([
-        'hasFile' => $request->hasFile('imagen'),
-        'files' => $request->allFiles(),
-        'all' => $request->all()
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+    ]);
+
+    $imagenPath = null;
+
+    if ($request->hasFile('imagen')) {
+        $imagenPath = $request->file('imagen')
+            ->store('reportes', 'public');
+    }
+
+    return Reporte::create([
+        'titulo' => $request->titulo,
+        'descripcion' => $request->descripcion,
+        'imagen' => $imagenPath,
+        'latitud' => $request->latitud,
+        'longitud' => $request->longitud,
+        'estado' => $request->estado ?? 'Pendiente',
+        'user_id' => $request->user()->id
     ]);
 }
     public function show(Reporte $reporte)
