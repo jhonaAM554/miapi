@@ -20,8 +20,19 @@ class Reporte extends Model
         'user_id'
     ];
 
+    protected $appends = ['imagen_url'];
+
    public function comentarios()
 {
     return $this->hasMany(Comentario::class);
+}
+
+public function getImagenUrlAttribute()
+{
+    if (!$this->imagen) {
+        return null;
+    }
+
+    return asset('storage/' . $this->imagen);
 }
 }

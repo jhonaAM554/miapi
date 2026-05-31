@@ -20,10 +20,17 @@ class ReporteController extends Controller
             'descripcion' => 'required|string',
         ]);
 
+        $imagenPath = null;
+
+if ($request->hasFile('imagen')) {
+    $imagenPath = $request->file('imagen')
+        ->store('reportes', 'public');
+}
+
         return Reporte::create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
-            'imagen' => $request->imagen,
+            'imagen' => $imagenPath,
             'latitud' => $request->latitud,
             'longitud' => $request->longitud,
             'estado' => $request->estado ?? 'Pendiente',
