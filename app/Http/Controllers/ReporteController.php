@@ -13,12 +13,10 @@ class ReporteController extends Controller
     return Reporte::with('comentarios.user')->get();
 }
 
-   public function store(Request $request)
+ public function store(Request $request)
 {
-    dd([
-        'all' => $request->all(),
-        'hasFile' => $request->hasFile('imagen'),
-        'files' => $request->allFiles(),
+    return response()->json([
+        'ok' => true
     ]);
 }
     public function show(Reporte $reporte)
