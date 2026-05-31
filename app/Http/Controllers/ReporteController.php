@@ -9,7 +9,7 @@ class ReporteController extends Controller
 {
     public function index()
 {
-    return Reporte::with('comentarios')->get();
+    return Reporte::with('comentarios.user')->get();
 }
 
     public function store(Request $request)
