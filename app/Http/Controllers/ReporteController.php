@@ -13,31 +13,14 @@ class ReporteController extends Controller
     return Reporte::with('comentarios.user')->get();
 }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-        ]);
-dd($request->hasFile('imagen'));
-        $imagenPath = null;
-
-if ($request->hasFile('imagen')) {
-    $imagenPath = $request->file('imagen')
-        ->store('reportes', 'public');
+   public function store(Request $request)
+{
+    dd([
+        'all' => $request->all(),
+        'hasFile' => $request->hasFile('imagen'),
+        'files' => $request->allFiles(),
+    ]);
 }
-
-        return Reporte::create([
-            'titulo' => $request->titulo,
-            'descripcion' => $request->descripcion,
-            'imagen' => $imagenPath,
-            'latitud' => $request->latitud,
-            'longitud' => $request->longitud,
-            'estado' => $request->estado ?? 'Pendiente',
-            'user_id' => $request->user()->id
-        ]);
-    }
-
     public function show(Reporte $reporte)
     {
         return $reporte;
