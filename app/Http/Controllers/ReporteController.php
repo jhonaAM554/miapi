@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class ReporteController extends Controller
 {
     public function index()
-    {
-        return Reporte::all();
-    }
+{
+    return Reporte::with('comentarios')->get();
+}
 
     public function store(Request $request)
     {
