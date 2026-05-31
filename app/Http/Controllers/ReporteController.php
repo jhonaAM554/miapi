@@ -19,7 +19,7 @@ class ReporteController extends Controller
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
         ]);
-
+dd($request->hasFile('imagen'));
         $imagenPath = null;
 
 if ($request->hasFile('imagen')) {
