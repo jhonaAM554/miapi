@@ -3,25 +3,29 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-//use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\NotificacionController;
 
-// Rutas públicas
+// Públicas
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-// Rutas protegidas
+Route::get('reportes', [ReporteController::class, 'index']);
+Route::get('reportes/{reporte}', [ReporteController::class, 'show']);
+
+
+// Protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
-    // CRUD de personas
-    //Route::apiResource('personas', PersonaController::class);
-    Route::apiResource('reportes', ReporteController::class);
+    Route::post('reportes', [ReporteController::class, 'store']);
+    Route::put('reportes/{reporte}', [ReporteController::class, 'update']);
+    Route::delete('reportes/{reporte}', [ReporteController::class, 'destroy']);
+
     Route::apiResource('comentarios', ComentarioController::class);
+
     Route::apiResource('notificaciones', NotificacionController::class);
 
-    // Obtener usuario autenticado
     Route::get('user', function (Request $request) {
         return $request->user();
     });
