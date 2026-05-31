@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comentario;
 use Illuminate\Http\Request;
+use App\Models\Reporte;
+use App\Models\Notificacion;
 
 class ComentarioController extends Controller
 {
@@ -13,18 +15,30 @@ class ComentarioController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'contenido' => 'required|string',
-            'reporte_id' => 'required|exists:reportes,id'
-        ]);
+{
+    $request->validate([
+        'contenido' => 'required|string',
+        'reporte_id' => 'required|exists:reportes,id'
+    ]);
 
-        return Comentario::create([
-            'contenido' => $request->contenido,
-            'user_id' => $request->user()->id,
-            'reporte_id' => $request->reporte_id
+    $comentario = Comentario::create([
+        'contenido' => $request->contenido,
+        'user_id' => $request->user()->id,
+        'reporte_id' => $request->reporte_id
+    ]);
+
+    $reporte = Reporte::findOrFail($request->reporte_id);
+
+    if ($reporte->user_id != $request->user()->id) {
+        Notificacion::create([
+            'mensaje' => $request->user()->name . ' comentó tu reporte',
+            'user_id' => $reporte->user_id,
+            'reporte_id' => $reporte->id
         ]);
     }
+
+    return $comentario;
+}
 
     public function show(Comentario $comentario)
     {
