@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comentario;
+use App\Models\User;
 
 class Reporte extends Model
 {
@@ -25,6 +26,11 @@ class Reporte extends Model
    public function comentarios()
 {
     return $this->hasMany(Comentario::class);
+}
+
+public function user()
+{
+    return $this->belongsTo(User::class);
 }
 
 public function getImagenUrlAttribute()
