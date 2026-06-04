@@ -12,7 +12,8 @@ public function index()
 {
     return Reporte::with([
         'user',
-        'comentarios.user'
+        'comentarios.user
+        '
     ])->get();
 }
 
