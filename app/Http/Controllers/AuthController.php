@@ -78,4 +78,24 @@ class AuthController extends Controller
         'message' => 'Contraseña actualizada correctamente'
     ]);
 }
+
+public function actualizarPerfil(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+    ]);
+
+    $user = $request->user();
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+
+    $user->save();
+
+    return response()->json([
+        'message' => 'Perfil actualizado',
+        'user' => $user
+    ]);
+}
 }
