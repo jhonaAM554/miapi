@@ -18,6 +18,8 @@ Route::get('reportes/{reporte}', [ReporteController::class, 'show']);
 // Protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::post('change-password',[AuthController::class, 'cambiarPassword']);
+
     Route::post('reportes', [ReporteController::class, 'store']);
     Route::put('reportes/{reporte}', [ReporteController::class, 'update']);
     Route::delete('reportes/{reporte}', [ReporteController::class, 'destroy']);
