@@ -11,7 +11,8 @@ class ReporteController extends Controller
 public function index()
 {
     return Reporte::with([
-        'user'
+        'user',
+        'comentarios.user'
     ])->get();
 }
 
