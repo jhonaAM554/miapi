@@ -21,20 +21,18 @@ class FirebaseService
     }
 
     public function enviarNotificacion(
-        $token,
-        $titulo,
-        $mensaje
-    ) {
-        $message = CloudMessage::withTarget(
-            'token',
-            $token
-        )->withNotification(
-            Notification::create(
-                $titulo,
-                $mensaje
-            )
-        );
+    $token,
+    $titulo,
+    $mensaje
+) {
+    $message = CloudMessage::fromArray([
+        'token' => $token,
+        'notification' => [
+            'title' => $titulo,
+            'body' => $mensaje,
+        ],
+    ]);
 
-        $this->messaging->send($message);
-    }
+    $this->messaging->send($message);
+}
 }
