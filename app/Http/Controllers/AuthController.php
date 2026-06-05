@@ -136,4 +136,21 @@ public function actualizarPerfil(Request $request)
         'user' => $user
     ]);
 }
+
+public function guardarFcmToken(Request $request)
+{
+    $request->validate([
+        'fcm_token' => 'required'
+    ]);
+
+    $user = $request->user();
+
+    $user->fcm_token = $request->fcm_token;
+
+    $user->save();
+
+    return response()->json([
+        'message' => 'Token guardado'
+    ]);
+}
 }

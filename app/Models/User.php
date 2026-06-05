@@ -15,6 +15,7 @@ class User extends Authenticatable
     'email',
     'password',
     'rol',
+    'fcm_token'
 ];
 
     protected $hidden = [
@@ -25,4 +26,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    
 }
