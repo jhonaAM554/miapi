@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Services\FirebaseService;
 
 class AuthController extends Controller
 {
@@ -151,6 +152,29 @@ public function guardarFcmToken(Request $request)
 
     return response()->json([
         'message' => 'Token guardado'
+    ]);
+}
+
+public function pruebaPush(
+    FirebaseService $firebase
+)
+{
+    $user = User::find(2);
+
+    if (!$user->fcm_token) {
+        return response()->json([
+            'message' => 'Usuario sin token'
+        ]);
+    }
+
+    $firebase->enviarNotificacion(
+        $user->fcm_token,
+        'Prueba Laravel',
+        'Hola desde tu servidor VPS'
+    );
+
+    return response()->json([
+        'message' => 'Notificación enviada'
     ]);
 }
 }
