@@ -159,7 +159,7 @@ public function pruebaPush(
     FirebaseService $firebase
 )
 {
-    $user = User::find(4);
+    $user = User::find(2);
 
     if (!$user->fcm_token) {
         return response()->json([
