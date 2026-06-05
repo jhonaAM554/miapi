@@ -50,6 +50,43 @@ class AuthController extends Controller
         ]);
     }
 
+    public function googleLogin(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|email',
+    ]);
+
+    $user = User::where(
+        'email',
+        $request->email
+    )->first();
+
+    if (!$user) {
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+
+            // contraseña aleatoria
+            'password' => bcrypt(
+                uniqid()
+            ),
+
+            'rol' => 'usuario',
+        ]);
+    }
+
+    $token = $user
+        ->createToken('token-name')
+        ->plainTextToken;
+
+    return response()->json([
+        'token' => $token,
+        'user' => $user,
+    ]);
+}
+
     public function cambiarPassword(Request $request)
 {
     $request->validate([
