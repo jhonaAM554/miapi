@@ -123,12 +123,14 @@ public function actualizarPerfil(Request $request)
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
+        'nivel_educativo' => 'nullable|string|max:100',
     ]);
 
     $user = $request->user();
 
     $user->name = $request->name;
     $user->email = $request->email;
+    $user->nivel_educativo = $request->nivel_educativo;
 
     $user->save();
 

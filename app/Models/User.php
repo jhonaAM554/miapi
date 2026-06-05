@@ -15,7 +15,8 @@ class User extends Authenticatable
     'email',
     'password',
     'rol',
-    'fcm_token'
+    'fcm_token',
+    'nivel_educativo'
 ];
 
     protected $hidden = [
