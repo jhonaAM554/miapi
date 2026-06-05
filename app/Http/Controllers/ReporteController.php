@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Reporte;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
+use App\Services\FirebaseService;
+use App\Models\User;
 
 class ReporteController extends Controller
 {
@@ -45,7 +47,11 @@ public function index()
         return $reporte;
     }
 
-   public function update(Request $request, Reporte $reporte)
+   public function update(
+    Request $request,
+    Reporte $reporte,
+    FirebaseService $firebase
+)
 {
     $estadoAnterior = $reporte->estado;
 
@@ -61,6 +67,20 @@ public function index()
             'user_id' => $reporte->user_id,
             'reporte_id' => $reporte->id
         ]);
+
+        $usuario = User::find($reporte->user_id);
+
+        if (
+            $usuario &&
+            $usuario->fcm_token
+        ) {
+
+            $firebase->enviarNotificacion(
+                $usuario->fcm_token,
+                'Reporte actualizado',
+                'Tu reporte fue marcado como: ' . $request->estado
+            );
+        }
     }
 
     return $reporte;
